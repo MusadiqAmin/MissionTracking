@@ -1,0 +1,355 @@
+﻿@model IEnumerable<MissionTracking.Models.ISM>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+            <div style="padding:10px 10px 10px 10px; background-color: lightgrey; border-radius:8px 9px;">
+
+                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="btnAdd">
+                    <span class="fa fa-plus-square" aria-hidden="true"></span> Add New Mission
+                </button>
+
+                <table class="table table-striped table table-hover table-bordered" id="ismtable" style="margin-top:0px">
+
+                    <thead>
+                        <tr style="background-color:#428bca">
+
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Program</th>
+                            <th>Type</th>
+                            <th>Ratings</th>
+                            <th>Actions</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MStartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MEndDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Program)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Rating)
+                                </td>
+                                <td style="text-align:right; ">
+                                    <a id="btnUpdateEmp" class="btn btn-primary " onclick="GetMission(@item.MissionID)" data-toggle="tooltip" title="Edit" href="javascript:;"><i class="fa fa-edit"></i></a>
+
+                                    <a class="btnDelete btn btn-danger" data-toggle="tooltip" title="Delete" data-id="@item.MissionID" href="javascript:;"><i class="fa fa-trash"></i></a>
+
+                                    @*<a class="btn btn-warning" data-toggle="tooltip" data-id="@item.MissionID" title="Upload Files" href="javascript:;"><i class="fa fa-upload"></i></a>*@
+                                   
+                                    @Html.ActionLink("Upload", "DList", new { id = item.MissionID }, new { @class = "btn btn-primary" })
+
+                                    @Html.ActionLink("Action Points", "ActionPointsList", new { id = item.MissionID }, new { @class = "btn btn-primary" })
+
+
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+<style>
+    .modal.custom{
+        outline:none;
+    }
+    .modal.custom .modal-dialog{
+        width:40%;
+        margin:0 auto;
+    }
+    .modal-header{
+        min-height:16.428571429px;
+        padding:15px;
+        border-bottom:1px solid #e5e5e5;
+        background-color:#428bca;
+    }
+    .modal-title{
+        color:white;
+    }
+
+        .dataTables_filter{
+        float: left !important;
+    }
+</style>
+
+<div class="modal fade" id="ISModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="ModalTitle"></h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="mConta">
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <span class="col-sm-3 control-label" id="txtID"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Start Date</span>
+                        <div class="col-sm-9">
+                            <input id="sDate" class="form-control" type="date" placeholder="Select Starting Date" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">End Date</span>
+                        <div class="col-sm-9">
+                            <input id="eDate" class="form-control" type="date" placeholder="Select Ending Date" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Program</span>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="program">
+                                <option value="" selected>Please Select the Program</option>
+                                <option value="CC">CC</option>
+                                <option value="ASERD">ASERD</option>
+                                <option value="WEERDP">WEERDP</option>
+                                <option value="NRAP">NRAP</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Type</span>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="type">
+                                <option value="" selected>Please Select the Type</option>
+                                <option value="CC">Normal</option>
+                                <option value="ASERD">MTR</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Ratings</span>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="ratings">
+                                <option value="" selected>Please Select the Ratings</option>
+                                <option value="Good">Good</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Satisfactory">Satisfactory</option>
+                                <option value="Bad">Bad</option>
+                                <option value="worse">worse</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                <button type="button" class="btn btn-primary" id="btnSave">
+                    Save <i class="fas fa-save" aria-hidden="true"></i>
+                </button>
+
+
+                <button type="button" class="btn btn-primary" id="btnUpdate" hidden onclick="UpdateMission()">
+                    Update <i class="fas fa-save" aria-hidden="true"></i>
+                </button>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div> 
+@section scripts{
+       
+    <script>
+
+        $("#ismtable").DataTable({
+            "bLengthChange": false
+        });
+
+        //CLEARING THE MODAL
+        $("#btnAdd").click(function () {
+            $("#ISModal").modal('show');
+            $('#sDate').val('');
+            $('#eDate').val('');
+            $('#program').val('');
+            $('#type').val('');
+            $('#ratings').val('');
+
+            $('#ModalTitle').text('Add Mission');
+            $('#btnUpdate').hide();
+            $('#btnSave').show();
+        });
+
+        //SAVING THE RECORD
+        $('#btnSave').click(function () {
+            var table = $('#ismtable').DataTable();
+
+            if ($('#sDate').val() == '' ||
+                $('#eDate').val() == '' ||
+                $('#program option:selected').val() == '' ||
+                $('#type option:selected').val() == '' ||
+                $('#ratings option:selected').val() == '') {
+
+                toastr.error('All Fields are Required.');
+            }
+            else {
+                var ismObj = {
+                    StartDate: new Date(parseInt($('#sDate').val().substr(6))),
+                    EndDate: moment($('#eDate').val()).format('YYYY-MM-DD'),
+                    Program: $('#program option:selected').val(),
+                    Type: $('#type option:selected').val(),
+                    Rating: $('#ratings option:selected').val()
+                }
+                console.log(ismObj);
+                $.ajax({
+
+                    url: '/ISM/Create',
+                    dataType: 'json',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(ismObj),
+                    success: function (response) {
+                        if (response.status) {
+                            toastr.success(response.message, "Saved Successfully");
+                            //table.row.add([$('#sDate').val(), $('#eDate').val(),
+                            //               $('#program option:selected').val(),
+                            //               $('#type option:selected').val(),
+                            //               $('#ratings option:selected').val()]).draw(false);
+                            location.reload();
+
+                        }
+                    }
+                });
+
+                $('#ISModal').modal('hide');
+            }
+
+        });  
+
+        //DELETING THE RECORD 
+        $('body').on('click', '.btnDelete', function () {
+
+            var table = $('#ismtable').DataTable();
+            var $this = $(this);
+            var checkstr = confirm('Are you Sure you want to delete this record?');
+            if (checkstr == true) {
+
+                $.ajax({
+                    url: '/ISM/Delete',
+                    data: { ID: $($this).attr("data-id") },
+                    type: "POST",
+                    success: function (response) {
+                        toastr.error(response.message);
+                        table.row($($this).parents('tr'))
+                            .remove().draw();
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+           
+        });
+
+        //EDITING THE RECORD
+        function GetMission(ID) {
+
+            $.ajax({
+
+                url: "/ISM/GetMissions",
+                data: { ID: ID },
+                type: 'GET',
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'JSON',
+                success: function (result) {
+                    $("#txtID").val(result.data.MissionID);
+                    $('#sDate').val(result.data.StartDate);
+                    $('#eDate').val(result.data.EndDate);
+                    $('#program').val(result.data.Program);
+                    $('#type').val(result.data.Type);
+                    $('#ratings').val(result.data.Rating);
+
+                    $('#btnSave').hide();
+                    $('#btnUpdate').show();
+                    $('#ModalTitle').text('Update Mission')
+                    $('#ISModal').modal('show');
+
+                }
+
+            });
+
+
+        }
+
+        //UPDATING THE RECORD
+        function UpdateMission() {
+            var table = $('#ismtable').DataTable();
+            var model = {
+                MissionID: $("#txtID").val(),
+                StartDate: $('#sDate').val(),
+                EndDate: $('#eDate').val(),
+                Program: $('#program option:selected').val(),
+                Type: $('#type option:selected').val(),
+                Rating: $('#ratings option:selected').val()
+            }
+            $.ajax({
+
+                url: '/ISM/UpdateMission',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json; charset=UTF-8',
+                success: function (response) {
+                    toastr.success(response.message)
+                    location.reload();
+                    //table.row('selected').cell(':eq(0)').data($('#sDate').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#eDate').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#program').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#type').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#ratings').val()).draw();
+
+                    $('#ISModal').modal('toggle');
+
+                }
+
+            });
+
+
+
+
+        }
+
+        
+
+
+
+    </script>
+
+          }
+

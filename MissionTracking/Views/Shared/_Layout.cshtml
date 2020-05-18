@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+
+
+
+    <link href="~/Content/Layout/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Layout/ionicons.min.css" rel="stylesheet" />
+    <link href="~/Content/Layout/AdminLTE.css" rel="stylesheet" />
+    <link href="~/Content/Layout/_all-skins.min.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Scripts/fontawesome-free-5.8.1-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Scripts/fontawesome-free-5.8.1-web/css/fontawesome.min.css" rel="stylesheet" />
+    @*<link href="~/Scripts/DataTables/DataTables/SemanticUI/datatables.min.css" rel="stylesheet" />
+        <link href="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/css/dataTables.foundation.css" rel="stylesheet" />
+            <link href="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+            <link href="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+            <link href="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/css/dataTables.semanticui.min.css" rel="stylesheet" />
+            <link href="~/Scripts/DataTables/DataTables/SemanticUI/SemanticUI-2.2.13/semantic.css" rel="stylesheet" />*@
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+
+
+
+
+
+
+
+
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="~/ISM/Index" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>W</b>B</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>World</b>Bank</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <i class="fas fa-bars"></i>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @Html.Partial("_LoginPartial")
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
+
+                    <li>
+                        <a href="~/ISM/Index">
+                            <i class="fa fa-th"></i> <span>Dashboard</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/ISM/Index">
+                            <i class="fa fa-calendar"></i> <span>ISM</span>
+                            @*<span class="pull-right-container">
+                                    <small class="label pull-right bg-red">3</small>
+                                    <small class="label pull-right bg-blue">17</small>
+                                </span>*@
+                        </a>
+                    </li>
+
+
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+
+            <strong>Copyright &copy; MRRD CMIS.</strong> All rights
+            reserved.
+        </footer>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    @*<script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>*@
+
+    <script src="~/Scripts/Layout/jquery.min.js"></script>
+    <script src="~/Scripts/Layout/jquery-ui.min.js"></script>
+    <script src="~/Scripts/Layout/bootstrap.min.js"></script>
+    <script src="~/Scripts/Layout/jquery.slimscroll.js"></script>
+    <script src="~/Scripts/Layout/adminlte.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/fontawesome-free-5.8.1-web/js/all.min.js"></script>
+    <script src="~/Scripts/fontawesome-free-5.8.1-web/js/fontawesome.min.js"></script>
+    <script src="~/Scripts/datatables.min.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    @*<script src="~/Scripts/DataTables/DataTables/SemanticUI/datatables.min.js"></script>
+        <script src="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/js/dataTables.foundation.js"></script>
+            <script src="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+            <script src="~/Scripts/DataTables/DataTables/SemanticUI/DataTables-1.10.18/js/dataTables.jqueryui.min.js"></script>
+            <script src="~/Scripts/DataTables/DataTables/DataTables-1.10.18/js/dataTables.semanticui.js"></script>
+            <script src="~/Scripts/DataTables/DataTables/SemanticUI/SemanticUI-2.2.13/semantic.js"></script>*@
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+@*@Html.Partial("_LoginPartial")*@
+@*@RenderBody()*@

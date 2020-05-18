@@ -1,0 +1,392 @@
+﻿@model List<MissionTracking.Models.ActionProgressVM>
+@{
+    ViewBag.Title = "ActionPointsList";
+}
+<br />
+            <div style="padding:10px 10px 10px 10px; background-color: lightgrey; border-radius:8px 9px;">
+
+                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="btnAdd">
+                    <span class="fa fa-plus-square" aria-hidden="true"></span> Add New Mission
+                </button>
+
+                <table class="table table-striped table table-hover table-bordered" id="acpTable" style="margin-top:0px">
+                    <thead>
+                        <tr style="background-color:#428bca">
+                            <th>Catagory</th>
+                            <th>Priority</th>
+                            <th>ActionPoints</th>
+                            <th>DueDate</th>
+                            <th>Responsible</th>
+                            <th>Status</th>
+                            <th>Percentage</th>
+                            <th>Remarks</th>
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in ViewData.Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Catagory)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Priority)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ActionPoint)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DueDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Responsible)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Percentage)%
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remarks)
+                                </td>
+                                <td style="text-align:right;width:300px">
+                                    <a id="btnUpdateEmp" class="btn btn-primary " onclick="GetAction(@item.APID)" data-toggle="tooltip" title="Edit" href="javascript:;"><i class="fa fa-edit"></i> </a>
+
+                                    <a class="btnDelete btn btn-danger" data-toggle="tooltip" title="Delete" data-id="@item.APID" href="javascript:;"><i class="fa fa-trash"></i></a>
+
+                                    @Html.ActionLink("Progress", "ProgressList", new { id = item.APID }, new { @class = "btn btn-primary" })
+
+
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+<style>
+    .modal.custom {
+        outline: none;
+    }
+
+        .modal.custom .modal-dialog {
+            width: 40%;
+            margin: 0 auto;
+        }
+
+    .modal-header {
+        min-height: 16.428571429px;
+        padding: 15px;
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #428bca;
+    }
+
+    .modal-title {
+        color: white;
+    }
+
+    .dataTables_filter {
+        float: left !important;
+    }
+</style>
+
+
+
+
+
+<div class="modal fade" id="ISModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="ModalTitle"></h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="mConta">
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <span class="col-sm-3 control-label" id="txtID"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Catagory</span>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="catagory">
+                                <option value="" selected>Please Select the Catagory</option>
+                                <option value="HR">HR</option>
+                                <option value="Procurement">Procurement</option>
+                                <option value="Contract">Contract</option>
+                                <option value="finance">finance</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Priority</span>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="priority">
+                                <option value="" selected>Please Select the Priority</option>
+                                <option value="high">high</option>
+                                <option value="normal">normal</option>
+                                <option value="low">low</option>
+                                <option value="critical">critical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Action Point</span>
+                        <div class="col-sm-9">
+                            <input id="aPoint" class="form-control" type="text" placeholder="Enter Action Point" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Due Date</span>
+                        <div class="col-sm-9">
+                            <input id="dDate" class="form-control" type="date" placeholder="Select Due Date" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Responsible</span>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="responsible">
+                                <option value="" selected>Please Select the Responsible</option>
+                                <option value="MRRD">MRRD</option>
+                                <option value="WORLD BANK">WORLD BANK</option>
+                                <option value="CONTRACTOR">CONTRACTOR</option>
+                                <option value="COMMUNITY">COMMUNITY</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <span class="col-sm-3 control-label" style="font-weight:bold">Remarks</span>
+                        <div class="col-sm-9">
+                            <textarea id="remarks" class="form-control" type="text" placeholder="Enter Remarks!"></textarea>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                <button type="button" class="btn btn-primary" id="btnSaves">
+                    Save <i class="fas fa-save" aria-hidden="true"></i>
+                </button>
+
+
+                <button type="button" class="btn btn-primary" id="btnUpdate" hidden onclick="UpdateAction()">
+                    Update <i class="fas fa-save" aria-hidden="true"></i>
+                </button>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+@section scripts{
+
+    <script>
+
+        $("#acpTable").DataTable({
+            "bLengthChange": false
+        });
+
+
+        //CLEARING THE MODAL
+        $("#btnAdd").click(function () {
+            $("#ISModal").modal('show');
+            $('#catagory').val('');
+            $('#dDate').val('');
+            $('#priority').val('');
+            $('#aPoint').val('');
+            $('#responsible').val('');
+            $('#remarks').val('');
+
+            $('#ModalTitle').text('Add Mission');
+            $('#btnUpdate').hide();
+            $('#btnSave').show();
+        });
+
+        //SAVING THE RECORD
+        $('#btnSaves').click(function () {
+            var table = $('#acpTable').DataTable();
+
+            if ($('#aPoint').val() == '' ||
+                $('#dDate').val() == '' ||
+                $('#remarks').val() == '' ||
+                $('#priority option:selected').val() == '' ||
+                $('#responsible option:selected').val() == '' ||
+                $('#catagory option:selected').val() == '') {
+
+                toastr.error('All Fields are Required.');
+            }
+            else {
+                var actionobj = {
+                    Actionpoint: $('#aPoint').val(),
+                    DueDate: $('#dDate').val(),
+                    Remarks: $('#remarks').val(),
+                    Priority: $('#priority option:selected').val(),
+                    Responsible: $('#responsible option:selected').val(),
+                    Catagory: $('#catagory option:selected').val()
+                }
+                console.log(actionobj);
+                $.ajax({
+
+                    url: '/ISM/ACreate',
+                    dataType: 'json',
+                    traditional: true,
+                    type: 'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify(actionobj),
+                    success: function (response) {
+                        if (response.status) {
+                            toastr.success(response.message, "Saved Successfully");
+                            //table.row.add([$('#sDate').val(), $('#eDate').val(),
+                            //               $('#program option:selected').val(),
+                            //               $('#type option:selected').val(),
+                            //               $('#ratings option:selected').val()]).draw(false);
+                            location.reload();
+
+                        }
+                    }
+                });
+
+                $('#ISModal').modal('hide');
+            }
+
+        });
+
+        //DELETING THE RECORD
+        $('body').on('click', '.btnDelete', function () {
+
+            var table = $('#acpTable').DataTable();
+            var $this = $(this);
+            var checkstr = confirm('Are you Sure you want to delete this record?');
+            if (checkstr == true) {
+
+                $.ajax({
+                    url: '/ISM/ADelete',
+                    data: { ID: $($this).attr("data-id") },
+                    type: "POST",
+                    success: function (response) {
+                        toastr.error(response.message);
+                        table.row($($this).parents('tr'))
+                            .remove().draw();
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+
+        });
+
+        //EDITING THE RECORD
+        function GetAction(ID) {
+
+            $.ajax({
+
+                url: "/ISM/GetActions",
+                data: { ID: ID },
+                type: 'GET',
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'JSON',
+                success: function (result) {
+                    $("#txtID").val(result.data.APID);
+                    $('#aPoint').val(result.data.ActionPoint);
+                    $('#dDate').val(result.data.DueDate);
+                    $('#remarks').val(result.data.Remarks);
+                    $('#priority').val(result.data.Priority);
+                    $('#responsible').val(result.data.Responsible);
+                    $('#catagory').val(result.data.Catagory);
+
+                    $('#btnSaves').hide();
+                    $('#btnUpdate').show();
+                    $('#ModalTitle').text('Update Action');
+                    $('#ISModal').modal('show');
+
+                }
+
+            });
+
+        }
+
+        //UPDATING THE RECORD
+        function UpdateAction() {
+            var table = $('#acpTable').DataTable();
+            var model = {
+                APID: $("#txtID").val(),
+                Actionpoint: $('#aPoint').val(),
+                DueDate: $('#dDate').val(),
+                Remarks: $('#remarks').val(),
+                Priority: $('#priority option:selected').val(),
+                Responsible: $('#responsible option:selected').val(),
+                Catagory: $('#catagory option:selected').val()
+            }
+            $.ajax({
+
+                url: '/ISM/UpdateAction',
+                type: 'POST',
+                data: JSON.stringify(model),
+                contentType: 'application/json; charset=UTF-8',
+                success: function (response) {
+                    toastr.success(response.message)
+                    location.reload();
+                    //table.row('selected').cell(':eq(0)').data($('#sDate').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#eDate').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#program').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#type').val()).draw();
+                    //table.row('selected').cell(':eq(0)').data($('#ratings').val()).draw();
+
+                    $('#ISModal').modal('toggle');
+
+                }
+
+            });
+
+
+
+
+        }
+
+    </script>
+
+
+
+}
+

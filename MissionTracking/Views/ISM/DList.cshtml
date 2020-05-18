@@ -1,0 +1,64 @@
+﻿@model MissionTracking.Models.Files
+@{
+    /**/
+
+    ViewBag.Title = "DList";
+}
+<br />
+@using (Html.BeginForm("GetFile", "ISM", FormMethod.Post, new { enctype = "multipart/Form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    <label for="Title">Title</label>
+                </div>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" name="Title" id="Title" placeholder="Enter the Name of the File" style="width:50%" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    <label for="file">Description</label>
+                </div>
+                <div class="col-md-10">
+                    <textarea class="form-control" id="Description" name="Description" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    <label for="file">Upload File</label>
+                </div>
+                <div class="col-md-10">
+                    <input class="form-control col-md-10" type="file" name="file" id="file" style="width:50%" />
+                </div><br /><br />
+
+                <div class="col-md-offset-2 col-md-3">
+                    <button type="submit" class="btn btn-primary col-md-10">Upload <i class="fas fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+
+
+
+    </div>
+}
+
+
+@*@Html.Partial("_DownloadFiles")*@
+
+@{ 
+    Html.RenderAction("DownloadFiles", "ISM");
+}
